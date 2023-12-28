@@ -2,6 +2,7 @@ package in.cdac;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import in.cdac.dao.Product;
 import in.cdac.dao.User;
 import in.cdac.dbops.DBOperations;
 
@@ -20,7 +22,7 @@ public class Login extends HttpServlet{
     {
         PrintWriter out = resp.getWriter();
         resp.setContentType("text/html");
-        
+                
         String useremail = req.getParameter("useremail");
         String userpassword = req.getParameter("userpwd");
 
@@ -36,6 +38,9 @@ public class Login extends HttpServlet{
             if(status){
                 HttpSession session = req.getSession(true);
                 session.setAttribute("email", useremail);
+
+                ArrayList<Product> prods =  dbOperations.getAllProductDetails();
+                req.setAttribute("products", prods);
                 req.getRequestDispatcher("/jsp/Welcome.jsp").forward(req, resp);    
             }else{
                 req.setAttribute("errormsg", "Invalid User details");

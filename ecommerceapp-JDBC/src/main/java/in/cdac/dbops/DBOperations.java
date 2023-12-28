@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import in.cdac.dao.Product;
 import in.cdac.dao.User;
 
 public class DBOperations {
@@ -28,6 +30,8 @@ public class DBOperations {
             cnf.printStackTrace();
         } catch (SQLException sql) {
             sql.printStackTrace();
+        }finally{
+           closeConnection();     
         }
     }
 
@@ -46,6 +50,8 @@ public class DBOperations {
             }           
         }catch(SQLException sqe){
             sqe.printStackTrace();
+        }finally{
+           closeConnection();     
         }
         return false;
     }
@@ -67,17 +73,70 @@ public class DBOperations {
 
         }catch(SQLException sqe){
             sqe.printStackTrace();
+        }finally{
+           closeConnection();     
         }
         return false;
     }
 
-    public void getAllProductDetails(){
+    public ArrayList<Product> getAllProductDetails(){
+        query = "select * from products";
+        ArrayList<Product> productsList = new ArrayList<>();
+        try{
+            pstmt = con.prepareStatement(query);           
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next())
+            {
+                Product pd = new Product();
+                pd.setProductID(rs.getInt(1));
+                pd.setProductName(rs.getString(2));
+                pd.setProductPrice(rs.getInt(3));
+                pd.setProductDesc(rs.getString(4));
 
+                productsList.add(pd);
+            }
+
+        }catch(SQLException sqe){
+            sqe.printStackTrace();
+        }finally{
+           closeConnection();     
+        }
+       return productsList;
     }
 
-    public void getSelectedProductDetails(int productID){
+    public Product getSelectedProductDetails(int productID){
+        query = "select * from products where productID=?";
+        Product pd = null;
+        try{
+            pstmt = con.prepareStatement(query);    
+            pstmt.setInt(1, productID);       
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next())
+            {
+                pd = new Product();
+                pd.setProductID(rs.getInt(1));
+                pd.setProductName(rs.getString(2));
+                pd.setProductPrice(rs.getInt(3));
+                pd.setProductDesc(rs.getString(4));                
+            }
 
+        }catch(SQLException sqe){
+            sqe.printStackTrace();
+        } finally{
+           closeConnection();     
+        }
+       return pd;
     }
 
+    public void closeConnection(){
+        if(con != null){
+            try{
+                con.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+            
+        }
+    }
 
 }

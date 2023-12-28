@@ -8,15 +8,6 @@
   <servlet>
     <servlet-name>register</servlet-name>
     <servlet-class>in.cdac.Register</servlet-class>
-    <init-param>
-      <param-name>dbconnector</param-name>
-      <param-value>com.mysql.jdbc.driver</param-value>
-    </init-param>
-
-    <init-param>
-      <param-name>dbipaddress</param-name>
-      <param-value>10.244.1.90</param-value>
-    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>register</servlet-name>
@@ -24,11 +15,17 @@
   </servlet-mapping>
 
 
+  <welcome-file-list>
+    <welcome-file>/jsp/Home.jsp</welcome-file>
+  </welcome-file-list>
 
+  <error-page>
+    <error-code>404</error-code>
+    <location>/jsp/error/PNF.jsp</location>
+  </error-page>
 
-  <context-param>
-    <param-name>dbconnector</param-name>
-    <param-value>com.mysql.jdbc.driver</param-value>
-  </context-param>
-
+  <error-page>
+    <error-code>500</error-code>
+    <location>/jsp/error/RTE.jsp</location>
+  </error-page>
 </web-app>
