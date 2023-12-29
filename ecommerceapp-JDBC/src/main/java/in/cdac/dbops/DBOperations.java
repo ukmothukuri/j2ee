@@ -30,8 +30,6 @@ public class DBOperations {
             cnf.printStackTrace();
         } catch (SQLException sql) {
             sql.printStackTrace();
-        }finally{
-           closeConnection();     
         }
     }
 
