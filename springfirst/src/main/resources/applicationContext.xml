@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    
+    <bean id="address1" class="in.cdac.Address">
+        <property name="streetName" value="street 1"></property>        
+        <property name="pincode" value="500005"></property>
+    </bean>
+
+    <bean id="user1" class="in.cdac.User" autowire="byType">
+    </bean>
+    
+
+    <!-- Setter based DI -->
+    <!-- <bean id="user1" class="in.cdac.User" scope="prototype">       
+        <property name="name" value="Pawan"></property>
+        <property name="email" value="pawan@cdac.in"></property>
+        <property name="ads" ref="address1"></property>
+    </bean> -->
+
+    <!-- Constructor based DI -->
+    <!-- <bean id="user1" class="in.cdac.User">
+        <constructor-arg value="Kiran"></constructor-arg>
+        <constructor-arg value="Kiran@cdac.in"></constructor-arg>
+        <constructor-arg ref="address1"></constructor-arg>    
+    </bean> -->
+
+    
+
+</beans>
